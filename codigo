@@ -1,1 +1,169 @@
-python anatomy_game.py 
+import random
+
+# Question database - questions about anatomy
+ANATOMY_QUESTIONS = [
+    {
+        "question": "How many bones does an adult human have?",
+        "options": ["186", "206", "226", "256"],
+        "correct": 1  # Index of correct answer (206 is at index 1)
+    },
+    {
+        "question": "What is the largest bone in the human body?",
+        "options": ["Humerus", "Tibia", "Femur", "Fibula"],
+        "correct": 2  # Femur
+    },
+    {
+        "question": "How many chambers does the human heart have?",
+        "options": ["2", "3", "4", "5"],
+        "correct": 2  # 4 chambers
+    },
+    {
+        "question": "What is the largest organ in the human body?",
+        "options": ["Brain", "Heart", "Liver", "Skin"],
+        "correct": 3  # Skin
+    },
+    {
+        "question": "How many pairs of ribs does a human have?",
+        "options": ["10", "12", "14", "16"],
+        "correct": 1  # 12 pairs
+    },
+    {
+        "question": "What is the smallest bone in the human body?",
+        "options": ["Stapes", "Incus", "Malleus", "Vomer"],
+        "correct": 0  # Stapes (in the ear)
+    },
+    {
+        "question": "How many vertebrae are in the human spine?",
+        "options": ["28", "31", "33", "35"],
+        "correct": 2  # 33 vertebrae
+    },
+    {
+        "question": "What is the primary function of the lungs?",
+        "options": ["Pump blood", "Gas exchange", "Produce hormones", "Filter blood"],
+        "correct": 1  # Gas exchange
+    }
+]
+
+class AnatomyGame:
+    def __init__(self):
+        self.score = 0
+        self.total_questions = 0
+        self.correct_answers = 0
+        
+    def display_welcome(self):
+        """Display welcome message"""
+        print("\n" + "="*50)
+        print("   WELCOME TO THE ANATOMY QUIZ GAME!")
+        print("="*50)
+        print("\nTest your knowledge about the human body!")
+        print(f"Total questions: {len(ANATOMY_QUESTIONS)}\n")
+    
+    def ask_question(self, question_data, question_number):
+        """
+        Ask a single question and get user response
+        
+        Args:
+            question_data: Dictionary with question, options, and correct answer
+            question_number: Question number in the quiz
+        
+        Returns:
+            True if correct, False if incorrect
+        """
+        print(f"\n--- Question {question_number} of {len(ANATOMY_QUESTIONS)} ---")
+        print(f"\n{question_data['question']}\n")
+        
+        # Display options
+        for i, option in enumerate(question_data['options'], 1):
+            print(f"  {i}. {option}")
+        
+        # Get user input
+        while True:
+            try:
+                user_answer = int(input("\nYour answer (1-4): "))
+                if 1 <= user_answer <= 4:
+                    user_answer -= 1  # Convert to 0-based index
+                    break
+                else:
+                    print("Please enter a number between 1 and 4!")
+            except ValueError:
+                print("Invalid input! Please enter a number.")
+        
+        # Check if answer is correct
+        correct_index = question_data['correct']
+        is_correct = user_answer == correct_index
+        
+        # Display feedback
+        if is_correct:
+            print("\n✓ CORRECT! Well done!")
+            self.correct_answers += 1
+            self.score += 10
+        else:
+            correct_option = question_data['options'][correct_index]
+            print(f"\n✗ INCORRECT! The correct answer was: {correct_option}")
+            self.score += 0
+        
+        return is_correct
+    
+    def play_game(self):
+        """Main game loop"""
+        self.display_welcome()
+        
+        # Shuffle questions to vary the quiz
+        shuffled_questions = random.sample(ANATOMY_QUESTIONS, len(ANATOMY_QUESTIONS))
+        
+        # Ask each question
+        for i, question in enumerate(shuffled_questions, 1):
+            self.ask_question(question, i)
+            self.total_questions += 1
+        
+        # Display final results
+        self.display_results()
+    
+    def display_results(self):
+        """Display final game results and score"""
+        print("\n" + "="*50)
+        print("              GAME FINISHED!")
+        print("="*50)
+        print(f"\nFinal Score: {self.score} points")
+        print(f"Correct Answers: {self.correct_answers}/{self.total_questions}")
+        
+        percentage = (self.correct_answers / self.total_questions * 100)
+        print(f"Percentage: {percentage:.1f}%")
+        
+        # Display performance message
+        if percentage == 100:
+            print("\n🏆 PERFECT SCORE! You're an anatomy expert!")
+        elif percentage >= 80:
+            print("\n⭐ EXCELLENT! Great knowledge of anatomy!")
+        elif percentage >= 60:
+            print("\n👍 GOOD! Nice work!")
+        elif percentage >= 40:
+            print("\n📖 Not bad, but keep studying!")
+        else:
+            print("\n📚 Study more about anatomy and try again!")
+        
+        print("="*50 + "\n")
+    
+    def ask_replay(self):
+        """Ask if player wants to play again"""
+        while True:
+            response = input("Do you want to play again? (yes/no): ").lower()
+            if response in ['yes', 'y']:
+                return True
+            elif response in ['no', 'n']:
+                return False
+            else:
+                print("Please enter 'yes' or 'no'!")
+
+def main():
+    """Main function to run the game"""
+    while True:
+        game = AnatomyGame()
+        game.play_game()
+        
+        if not game.ask_replay():
+            print("Thanks for playing! Goodbye! 👋")
+            break
+
+if __name__ == "__main__":
+    main()
