@@ -1,168 +1,175 @@
 import random
 
-# Question database - questions about anatomy
-ANATOMY_QUESTIONS = [
+# Base de datos de preguntas sobre anatomía
+PREGUNTAS_ANATOMIA = [
     {
-        "question": "How many bones does an adult human have?",
-        "options": ["186", "206", "226", "256"],
-        "correct": 1  # Index of correct answer (206 is at index 1)
+        "pregunta": "¿Cuántos huesos tiene un adulto humano?",
+        "opciones": ["186", "206", "226", "256"],
+        "correcta": 1  # (206 está en el índice 1)
     },
     {
-        "question": "What is the largest bone in the human body?",
-        "options": ["Humerus", "Tibia", "Femur", "Fibula"],
-        "correct": 2  # Femur
+        "pregunta": "¿Cuál es el hueso más grande del cuerpo humano?",
+        "opciones": ["Húmero", "Tibia", "Fémur", "Peroné"],
+        "correcta": 2  # Fémur
     },
     {
-        "question": "How many chambers does the human heart have?",
-        "options": ["2", "3", "4", "5"],
-        "correct": 2  # 4 chambers
+        "pregunta": "¿Cuántas cámaras tiene el corazón humano?",
+        "opciones": ["2", "3", "4", "5"],
+        "correcta": 2  # 4 cámaras
     },
     {
-        "question": "What is the largest organ in the human body?",
-        "options": ["Brain", "Heart", "Liver", "Skin"],
-        "correct": 3  # Skin
+        "pregunta": "¿Cuál es el órgano más grande del cuerpo humano?",
+        "opciones": ["Cerebro", "Corazón", "Hígado", "Piel"],
+        "correcta": 3  # Piel
     },
     {
-        "question": "How many pairs of ribs does a human have?",
-        "options": ["10", "12", "14", "16"],
-        "correct": 1  # 12 pairs
+        "pregunta": "¿Cuántos pares de costillas tiene un humano?",
+        "opciones": ["10", "12", "14", "16"],
+        "correcta": 1  # 12 pares
     },
     {
-        "question": "What is the smallest bone in the human body?",
-        "options": ["Stapes", "Incus", "Malleus", "Vomer"],
-        "correct": 0  # Stapes (in the ear)
+        "pregunta": "¿Cuál es el hueso más pequeño del cuerpo humano?",
+        "opciones": ["Estribo", "Yunque", "Martillo", "Vómer"],
+        "correcta": 0  # Estribo (en el oído)
     },
     {
-        "question": "How many vertebrae are in the human spine?",
-        "options": ["28", "31", "33", "35"],
-        "correct": 2  # 33 vertebrae
+        "pregunta": "¿Cuántas vértebras tiene la columna vertebral humana?",
+        "opciones": ["28", "31", "33", "35"],
+        "correcta": 2  # 33 vértebras
     },
     {
-        "question": "What is the primary function of the lungs?",
-        "options": ["Pump blood", "Gas exchange", "Produce hormones", "Filter blood"],
-        "correct": 1  # Gas exchange
+        "pregunta": "¿Cuál es la función principal de los pulmones?",
+        "opciones": ["Bombear sangre", "Intercambio de gases", "Producir hormonas", "Filtrar sangre"],
+        "correcta": 1  # Intercambio de gases
+    },
+    {
+        "pregunta": "¿Cuántas veces late el corazón por minuto en reposo?",
+        "opciones": ["40-60 latidos", "60-100 latidos", "100-140 latidos", "140-180 latidos"],
+        "correcta": 1  # 60-100 latidos
+    },
+    {
+        "pregunta": "¿Cuál es el músculo más grande del cuerpo humano?",
+        "opciones": ["Bíceps", "Glúteo mayor", "Cuádriceps", "Pectoral"],
+        "correcta": 2  # Cuádriceps
     }
 ]
 
-class AnatomyGame:
+class JuegoAnatomia:
     def __init__(self):
-        self.score = 0
-        self.total_questions = 0
-        self.correct_answers = 0
+        self.puntuacion = 0
+        self.preguntas_totales = 0
+        self.respuestas_correctas = 0
         
-    def display_welcome(self):
-        """Display welcome message"""
+    def mostrar_bienvenida(self):
+        """Muestra el mensaje de bienvenida"""
         print("\n" + "="*50)
-        print("   WELCOME TO THE ANATOMY QUIZ GAME!")
+        print("   ¡BIENVENIDO AL QUIZ DE ANATOMÍA!")
         print("="*50)
-        print("\nTest your knowledge about the human body!")
-        print(f"Total questions: {len(ANATOMY_QUESTIONS)}\n")
+        print(f"Preguntas totales: {len(PREGUNTAS_ANATOMIA)}\n")
     
-    def ask_question(self, question_data, question_number):
+    def hacer_pregunta(self, datos_pregunta, numero_pregunta):
         """
-        Ask a single question and get user response
+        Hace una pregunta individual y obtiene la respuesta del usuario
         
         Args:
-            question_data: Dictionary with question, options, and correct answer
-            question_number: Question number in the quiz
+            datos_pregunta: Diccionario con pregunta, opciones y respuesta correcta
+            numero_pregunta: Número de la pregunta en el quiz
         
         Returns:
-            True if correct, False if incorrect
+            True si es correcta, False si es incorrecta
         """
-        print(f"\n--- Question {question_number} of {len(ANATOMY_QUESTIONS)} ---")
-        print(f"\n{question_data['question']}\n")
+        print(f"\n--- Pregunta {numero_pregunta} de {len(PREGUNTAS_ANATOMIA)} ---")
+        print(f"\n{datos_pregunta['pregunta']}\n")
         
-        # Display options
-        for i, option in enumerate(question_data['options'], 1):
-            print(f"  {i}. {option}")
+        # Mostrar opciones
+        for i, opcion in enumerate(datos_pregunta['opciones'], 1):
+            print(f"  {i}. {opcion}")
         
-        # Get user input
+        # Obtener respuesta del usuario
         while True:
             try:
-                user_answer = int(input("\nYour answer (1-4): "))
-                if 1 <= user_answer <= 4:
-                    user_answer -= 1  # Convert to 0-based index
+                respuesta_usuario = int(input("\nTu respuesta (1-4): "))
+                if 1 <= respuesta_usuario <= 4:
+                    respuesta_usuario -= 1  # Convertir a índice basado en 0
                     break
                 else:
-                    print("Please enter a number between 1 and 4!")
+                    print("¡Por favor ingresa un número entre 1 y 4!")
             except ValueError:
-                print("Invalid input! Please enter a number.")
+                print("¡Entrada inválida! Por favor ingresa un número.")
         
-        # Check if answer is correct
-        correct_index = question_data['correct']
-        is_correct = user_answer == correct_index
+        # Verificar si la respuesta es correcta
+        indice_correcta = datos_pregunta['correcta']
+        es_correcta = respuesta_usuario == indice_correcta
         
-        # Display feedback
-        if is_correct:
-            print("\n✓ CORRECT! Well done!")
-            self.correct_answers += 1
-            self.score += 10
+        # Mostrar retroalimentación
+        if es_correcta:
+            print("\n✓ ¡CORRECTO! ¡Excelente trabajo!")
+            self.respuestas_correctas += 1
+            self.puntuacion += 10
         else:
-            correct_option = question_data['options'][correct_index]
-            print(f"\n✗ INCORRECT! The correct answer was: {correct_option}")
-            self.score += 0
+            opcion_correcta = datos_pregunta['opciones'][indice_correcta]
+            print(f"\n✗ ¡INCORRECTO! La respuesta correcta era: {opcion_correcta}")
+            self.puntuacion += 0
         
-        return is_correct
+        return es_correcta
     
-    def play_game(self):
-        """Main game loop"""
-        self.display_welcome()
+    def jugar(self):
+        """Loop principal del juego"""
+        self.mostrar_bienvenida()
         
-        # Shuffle questions to vary the quiz
-        shuffled_questions = random.sample(ANATOMY_QUESTIONS, len(ANATOMY_QUESTIONS))
+
         
-        # Ask each question
-        for i, question in enumerate(shuffled_questions, 1):
-            self.ask_question(question, i)
-            self.total_questions += 1
+        # Hacer cada pregunta
+        for i, pregunta in enumerate(preguntas_mezcladas, 1):
+            self.hacer_pregunta(pregunta, i)
+            self.preguntas_totales += 1
         
-        # Display final results
-        self.display_results()
+        # Mostrar resultados finales
+        self.mostrar_resultados()
     
-    def display_results(self):
-        """Display final game results and score"""
+    def mostrar_resultados(self):
+        """Muestra los resultados finales del juego y la puntuación"""
         print("\n" + "="*50)
-        print("              GAME FINISHED!")
+        print("              ¡JUEGO TERMINADO!")
         print("="*50)
-        print(f"\nFinal Score: {self.score} points")
-        print(f"Correct Answers: {self.correct_answers}/{self.total_questions}")
+        print(f"\nPuntuación Final: {self.puntuacion} puntos")
+        print(f"Respuestas Correctas: {self.respuestas_correctas}/{self.preguntas_totales}")
         
-        percentage = (self.correct_answers / self.total_questions * 100)
-        print(f"Percentage: {percentage:.1f}%")
+        porcentaje = (self.respuestas_correctas / self.preguntas_totales * 100)
+        print(f"Porcentaje: {porcentaje:.1f}%")
         
-        # Display performance message
-        if percentage == 100:
-            print("\n🏆 PERFECT SCORE! You're an anatomy expert!")
-        elif percentage >= 80:
-            print("\n⭐ EXCELLENT! Great knowledge of anatomy!")
-        elif percentage >= 60:
-            print("\n👍 GOOD! Nice work!")
-        elif percentage >= 40:
-            print("\n📖 Not bad, but keep studying!")
+        # Mostrar mensaje de desempeño
+        if porcentaje == 100:
+            print("\n ¡PUNTUACIÓN PERFECTA! ")
+        elif porcentaje >= 80:
+            print("\n ¡EXCELENTE!")
+        elif porcentaje >= 60:
+            print("\n ¡BUENO!")
+        elif porcentaje >= 40:
+            print("\n ¡No está mal")
         else:
-            print("\n📚 Study more about anatomy and try again!")
+            print("\n vas a reprobar intenta de nuevo")
         
         print("="*50 + "\n")
     
-    def ask_replay(self):
-        """Ask if player wants to play again"""
+    def preguntar_repetir(self):
+        """Pregunta si el jugador quiere jugar de nuevo"""
         while True:
-            response = input("Do you want to play again? (yes/no): ").lower()
-            if response in ['yes', 'y']:
+            respuesta = input("¿Quieres jugar de nuevo? (sí/no): ").lower()
+            if respuesta in [ 'si', 's']:
                 return True
-            elif response in ['no', 'n']:
+            elif respuesta in ['no', 'n']:
                 return False
-            else:
-                print("Please enter 'yes' or 'no'!")
+        
 
 def main():
-    """Main function to run the game"""
+    """Función principal para ejecutar el juego"""
     while True:
-        game = AnatomyGame()
-        game.play_game()
+        juego = JuegoAnatomia()
+        juego.jugar()
         
-        if not game.ask_replay():
-            print("Thanks for playing! Goodbye! 👋")
+        if not juego.preguntar_repetir():
+            print("¡Gracias por jugar")
             break
 
 if __name__ == "__main__":
